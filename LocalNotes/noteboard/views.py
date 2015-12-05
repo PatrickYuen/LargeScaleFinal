@@ -1,5 +1,13 @@
-from django.http import HttpResponse
+from django.shortcuts import render
 
-# Create your views here.
-def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+from .models import *
+
+def main(request):
+	if request.method == 'POST':
+		form = Post(request.POST)
+		form.save()
+		return HttpResponseRedirect('/thanks/')
+
+	post_list = Post.objects.order_by('created')[:5]
+	context = {'post_list': post_list, 'post': post_list }
+	return render(request, 'noteboard/index.html', context)

@@ -2,6 +2,8 @@ from django.conf.urls import url
 
 from . import views
 
+app_name = 'noteboard'
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    url(r'^$', views.main, name='main'),
+	
 ]
