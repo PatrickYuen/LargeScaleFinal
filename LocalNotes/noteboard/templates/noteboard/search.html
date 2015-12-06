@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block navigation_bar %} 
+	  <a class="travelnotes-nav-item active" href={% url 'noteboard:main' %} >Search</a>
+	  <a class="travelnotes-nav-item" href={% url 'noteboard:CitiesView' %}>Cities</a>
+{% endblock %}
+
+{% block main %} 
+	  <div class="travelnotes-header">
+        <h1 class="travelnotes-title">Traveler's Guide</h1>
+      </div>
+
+	<form action={% url 'noteboard:search' %} method="post">
+		{% csrf_token %}
+		<input type="text" name="keyword"><input type="submit" value="Search">
+	</form>
+	
+	<br> 
+	
+	{% for city in cities_list %}
+		<a href={% url 'noteboard:CityView' pk=city.pk %}>
+			<div class="boxed"> {{ city.name }} </div>
+		</a>
+	{% endfor %}
+	
+{% endblock %}

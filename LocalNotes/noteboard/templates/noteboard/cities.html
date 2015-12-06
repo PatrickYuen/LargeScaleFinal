@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block navigation_bar %} 
+	  <a class="travelnotes-nav-item" href={% url 'noteboard:main' %} >Home</a>
+	  <a class="travelnotes-nav-item active" href={% url 'noteboard:CitiesView' %}>Cities</a>
+{% endblock %}
+	  
+{% block main %} 
+	  <div class="travelnotes-header">
+        <h1 class="travelnotes-title">Cities</h1>
+      </div>
+	  
+	{% for city in cities_list %}
+		<a href={% url 'noteboard:CityView' pk=city.pk %}>
+			<div class="boxed"> {{ city.name }} </div>
+		</a>
+		<br>
+	{% endfor %}
+{% endblock %}
