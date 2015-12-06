@@ -2,7 +2,7 @@ Large Scale Final Travel Notes:
 
 To Do:
 
-User Login/Register and Session Authentication
+User Login/Register and Session Authentication \n
 Geo Verification Layer
 DB Sharding scheme with MySQL
 Organizing the city Page to display proper layout
