@@ -1,0 +1,21 @@
+user/login system
+
+router for sharding
+
+get on aws
+
+geoauth/geoIP
+
+format post page/give posts categories (change models for that)
+
+user page (seeing their posts)
+
+post detail page
+
+auto-create city (don’t have add city) (so if they are posting and there isn’t a city yet for where they are it can be automatically added)
+
+
+redis for caching geoIP stuff
+
+apache for load balancing
+
