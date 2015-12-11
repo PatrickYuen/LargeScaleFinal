@@ -8,14 +8,13 @@
 {% block main %} 
 	
 	<div class="travelnotes-header">
-	<h1 class="travelnotes-title">City: {{ city.name }}</h1>
-	<h2> Country: {{ city.country }} </h2>
+	<h1 class="travelnotes-title"> Username: {{ user.username }}</h1>
+	
 	</div>
-
 	<br><br><br>
 
 	{% for post in posts_list %}
-		<div class="boxed">Title: {{ post.title }} </div>
+		<div class="boxed"> Title: {{ post.title }} </div>
 		<br>
 	{% endfor %}
 		
