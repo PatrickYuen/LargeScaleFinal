@@ -3,6 +3,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.views import generic
 
+from django.contrib.gis.geoip2 import GeoIP2
+
 from .models import *
 	
 def main(request):
@@ -47,16 +49,28 @@ class CityView(generic.DetailView):
 		return context
 
 def post(request):
-	current_city = City.objects.get(pk = '1')
+	host = request.META.get('REMOTE_HOST')
+	ip_address = request.META.get('REMOTE_ADDR')
+
+	geo = GeoIP2()
+	current_city = geo.city(str(ip_address))
+	city_name = str(current_city['city'])
+	country_name = str(current_city['country_name'])
+
+	if len(City.objects.filter(name=city_name)) == 0:
+		user_city = City(name=city_name, country=country_name, summary="Please add summary")
+		user_city.save()
+	else:
+		user_city = City.objects.get(name=city_name)
 	if request.method == 'POST':
 		selected_post = Post(
 						title = request.POST.get('title'),
 						body = request.POST.get('body'),
-						city = current_city,
+						city = user_city,
 						user = User.objects.get(id = request.session['member_id']))
 		selected_post.save()
 		
-	return HttpResponseRedirect(reverse('noteboard:CityView', args=(current_city.pk,)))
+	return HttpResponseRedirect(reverse('noteboard:CityView', args=(user_city.pk,)))
 	
 class UserView(generic.DetailView):
 	model = User
