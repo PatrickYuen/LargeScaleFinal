@@ -21,7 +21,7 @@ auto-create city (donâ€™t have add city) (so if they are posting and there isnâ€
 
 get on aws
 
-redis for caching geoIP stuff
+memcached for caching geoIP stuff
 
 apache for load balancing
 
