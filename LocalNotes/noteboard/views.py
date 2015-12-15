@@ -12,13 +12,16 @@ def main(request):
 
 def search(request):
 	context = {'user': ''}
-	if 'member_id' in request.session:
-		context['user'] = User.objects.get(id = request.session['member_id'])
-	
+	try:
+		if 'member_id' in request.session:
+			context['user'] = User.objects.get(id = request.session['member_id'])
+	except User.DoesNotExist:
+		context['user'] = None	
+
 	if request.method == 'POST':
 		cities_list = City.objects.filter(name__contains = request.POST.get('keyword'))[:5]
-		context = {'cities_list': cities_list}
-			
+		context = {'cities_list': cities_list}		
+	request.session.flush()				
 	return render(request, 'noteboard/search.html', context)
 
 class CitiesView(generic.ListView):
@@ -49,7 +52,7 @@ class CityView(generic.DetailView):
 		return context
 
 def post(request):
-	host = request.META.get('REMOTE_HOST')
+	# host = request.META.get('REMOTE_HOST')
 	ip_address = request.META.get('REMOTE_ADDR')
 
 	geo = GeoIP2()
