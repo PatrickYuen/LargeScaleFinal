@@ -59,19 +59,24 @@ def post(request):
     current_city = geo.city(str(ip_address))
     city_name = str(current_city['city'])
     country_name = str(current_city['country_name'])
+    print city_name
 
     input_city_country = request.POST.get('city')
 
     if input_city_country == "":
-        user_city = City(name=city_name, country=country_name, summary="Please add summary")
-        user_city.save()
+        try:
+            City.objects.get(name=city_name)
+
+        except City.DoesNotExist:
+            user_city = City(name=city_name, country=country_name, summary="Please add summary")
+            user_city.save()
+
         input_city = city_name
         input_country = country_name
-        
+
     else:
         input_city = str(input_city_country.split("+")[0])
         input_country = str(input_city_country.split("+")[1])
-        print "user inputs " + input_city + "," + input_country
 
     if input_city == city_name and country_name == input_country:
         user_city = City.objects.get(name=city_name)
