@@ -14,7 +14,9 @@ urlpatterns = [
 	
 	#City Page
 	url(r'^cities/(?P<pk>[0-9]+)/$', views.CityView.as_view(), name='CityView'),
-	
+
+	#City error page
+    url(r'^error/$', views.error, name='error'),
 	#Post Page
 	url(r'^post/$', views.post, name='post'),
 	
