@@ -109,7 +109,7 @@
 					<input type="text" class="form-control" name="username" >
 
 					<label>Password</label>
-					<input type="text" class="form-control" name="password" >
+					<input type="password" class="form-control" name="password" />
 				</div>
 				
 				<button type="submit" class="btn btn-danger">Login</button>
@@ -119,18 +119,28 @@
 	</section>
 	
 	<section id="post_modal" class="modal fade">
-
 		<div class="modal-body">
-
 			<form action={% url 'noteboard:post' %} method="post">
 				<span id="close_post" onclick="close()" class="glypicon glyphicon-remove-circle pull-right"></span>
 				{% csrf_token %}
+
 				<div class="form-group">
 					<label for="title">Title</label>
-					<input type="text" class="form-control" name="title" >
+					<input type="text" class="form-control" name="title" required>
 
+                    <label for="city">City</label> <br>
+                    Please select the city that you are currently at. Leave it blank if you cannot find the city.
+                    {% load noteboard_tags %}
+                    {% get_all_cities as cities %}
+                    <select class="form-control" name="city">
+                        <option value = ""></option>
+
+                        {% for city in cities %}
+                            <option value="{{ city.name }}+{{ city.country }}"> {{ city.name }}, {{ city.country}} </option>
+                        {% endfor %}
+                    </select>
 					<label for="title">Body</label>
-					<input id="post_body" type="textarea" class="form-control" name="body" >
+					<input id="post_body" type="textarea" class="form-control" name="body" required>
 				</div>
 				
 				<button type="submit" class="btn btn-danger">Submit</button>
@@ -173,8 +183,8 @@
 			$("#login").on('click', function() {
 				$("#login_modal").modal({show:true});
 			});
-			
-			$("#post").on('click', function() {
+
+            $("#post").on('click', function() {
 				$("#post_modal").modal({show:true});
 			});
 			
