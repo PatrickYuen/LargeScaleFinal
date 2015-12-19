@@ -1,29 +1,69 @@
-<!DOCTYPE html>
 {% load staticfiles %}
-<html>
-<head>
-  <!-- <link rel="stylesheet" type="text/css" href="{% static 'micro/style.css' %}" /> -->
-  <title>Scalica</title>
-</head> 
-<body>
-  <div id="header">
-    {% if user.is_authenticated %}
-      {{ user.username }}
-      <a href="{% url 'noteboard:logout' %}">Log Out</a>
-    {% else %}
-      <a href="{% url 'noteboard:login' %}">Log In</a>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href={% static "icons/beaker.ico" %}>
+    <title>Traveler's Guide!</title>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static "css/travelnotes.css" %}" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="travelnotes-masthead">
+      <div class="container">
+        <nav class="travelnotes-nav">
+        {% block navigation_bar %} {% endblock %}
+
+        {% if user.is_authenticated %}
+          Welcome {{ user.username }}
+          <a class="travelnotes-nav-item" href="{% url 'noteboard:logout' %}">Log Out</a>
+        {% else %}
+          <a class="travelnotes-nav-item" href="{% url 'noteboard:login' %}">Log In</a>
+          <a class="travelnotes-nav-item" ref="{% url 'noteboard:register' %}">Register</a>
+        {% endif %}
+
+        </nav>
+      </div>
+    </div>
+
+
+  
+
+    <div class="container">
+    <br>
+    {% if user %}
+      <button id="post" class="btn btn-primary btn-lg pull-right">ADD A POST </button>
     {% endif %}
-    {% block header %}{% endblock header %}
-  </div>
-  <div id="sidebar">
-    {% block sidebar %}{% endblock sidebar %}
-  </div>
-  <div id="content">
-    {% block content %}{% endblock content %}
-  </div>
-  <div id="footer">
-    <p>Copyright Scalica</p>
-    {% block footer %}{% endblock footer %}
-  </div>
-</body>
+
+    {% block main %} 
+    {% endblock %}
+    
+    <br>
+    </div><!-- /.container -->
+
+    <div class="travelnotes-footer">
+      <p>
+        <a href="#">Back to top</a>
+      </p>
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static "js/travelnotes.js" %}" ></script>
+  </body>
 </html>
