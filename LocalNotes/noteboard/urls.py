@@ -7,11 +7,8 @@ from django.contrib.auth import views as auth_views
 
 app_name = 'noteboard'
 urlpatterns = [
-	# Index Page
-	url(r'^$', views.index, name='index'),
-
 	#Search Main Page
-    url(r'^main/$', views.main, name='main'),
+    url(r'^$', views.main, name='main'),
 	url(r'^search/$', views.search, name='search'),
 	
 	#Register Post
@@ -19,7 +16,9 @@ urlpatterns = [
 	
 	#City Page
 	url(r'^cities/(?P<pk>[0-9]+)/$', views.CityView.as_view(), name='CityView'),
-	
+
+	#City error page
+    # url(r'^error/$', views.error, name='error'),
 	#Post Page
 	url(r'^post/$', views.post, name='post'),
 	
@@ -27,11 +26,13 @@ urlpatterns = [
 	url(r'^cities/$', views.CitiesView.as_view(), name='CitiesView'),
 	
 	#User Page
+	# url(r'^users/(?P<user_id>[0-9]+)/$', views.UserView.as_view(), name='UserView'),
+	# url(r'^users/(?P<username>[^/]+)/$', views.UserView.as_view(), name='UserView'),
 	url(r'^users/(?P<pk>[0-9]+)/$', views.UserView.as_view(), name='UserView'),
 	
-	# #login
+	#login
 	# url(r'^login/$', views.login, name='login'),
-	# url(r'^logout/$', views.logout, name='logout'),
+	url(r'^logout/$', views.logout_view, name='logout_view'),
 
 	url('^', include('django.contrib.auth.urls'))
 	

@@ -13,31 +13,20 @@ from django.views import generic
 # from .models import Following, Post, FollowingForm, PostForm, MyUserCreationForm
 
 
-# Anonymous views
-#################
-def index(request):
-  if request.user.is_authenticated():
-    return main(request)
-  else:
-    return anon_home(request)
-
-def anon_home(request):
-  return render(request, 'noteboard/public.html')
-
-	
 def main(request):
 	return HttpResponseRedirect(reverse('noteboard:search', args=()))
 
 def search(request):
-	context = {'user': ''}
+	context = {'user': None}
 	if request.user.is_authenticated():
 		context['user'] = request.user
-	
+
 	if request.method == 'POST':
 		cities_list = City.objects.filter(name__contains = request.POST.get('keyword'))[:5]
-		context = {'cities_list': cities_list}
-			
-	return render(request, 'noteboard/search.html', context)
+		context = {'cities_list': cities_list}	
+
+	return render(request, 'noteboard/search.html', context)	
+
 
 def register(request):
   if request.method == 'POST':
@@ -98,13 +87,30 @@ def post(request):
 class UserView(generic.DetailView):
 	model = User
 	template_name = 'noteboard/user.html'
-	
+	context_object_name = 'target_user'
+
+	def get_object(self, queryset=None):
+		if queryset is None:
+			queryset = self.get_queryset()
+		return get_object_or_404(queryset, **{username_field: self.kwargs['username']})
+
 	def get_context_data(self, **kwargs):
-		context = super(UserView, self).get_context_data(**kwargs)  
-		context['user'] = self.object
-		context['posts_list'] = Post.objects.filter(user = self.object).order_by('-created')[:5]
-		return context
+		ctx = super(UserView, self).get_context_data(**kwargs)
+		ctx['posts_list'] = Post.objects.filter(user=ctx['target_user']).order_by('-created')[:5]
+		return ctx
 		
+	
+	# def get_context_data(self, **kwargs):
+	# 	context = super(UserView, self).get_context_data(**kwargs)  
+	# 	# context['user'] = request.user
+	# 	context['posts_list'] = Post.objects.filter(user = self.object).order_by('-created')[:5]
+	# 	return context
+
+    
+        
+            
+
+    
 
 
 
@@ -116,9 +122,6 @@ class UserView(generic.DetailView):
 #     else:
 #         return HttpResponse("Your username and password didn't match.")
 		
-# def logout(request):
-#     try:
-#         del request.session['member_id']
-#     except KeyError:
-#         pass
-#     return HttpResponseRedirect(reverse('noteboard:search', args=()))
+def logout_view(request):
+	logout(request)
+	return HttpResponseRedirect(reverse('noteboard:search', args=()))
