@@ -15,9 +15,6 @@ urlpatterns = [
 	#City Page
 	url(r'^cities/(?P<pk>[0-9]+)/$', views.CityView.as_view(), name='CityView'),
 	
-	#Post Page
-	url(r'^post/$', views.post, name='post'),
-	
 	#All City Page
 	url(r'^cities/$', views.CitiesView.as_view(), name='CitiesView'),
 	
@@ -28,5 +25,6 @@ urlpatterns = [
 	url(r'^login/$', views.login, name='login'),
 	url(r'^logout/$', views.logout, name='logout'),
 	
-	#Post View
+	#Post, Delete, Edit View
+	url(r'^post/$', views.post, name='post'),
 ]
