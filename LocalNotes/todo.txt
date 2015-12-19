@@ -1,0 +1,29 @@
+user/login system:
+	login view
+	update model for django user
+	is this user autheniticated?
+	at first going to be scaled (no router for sharding)
+	
+router for sharding (copy scalica?)
+
+geoauth/geoIP, Elaine
+
+format post page/give posts categories (change models for that), Patrick
+
+user page (seeing their posts)
+
+post detail page, Patrick
+
+change search, Patrick
+
+auto-create city (don’t have add city) (so if they are posting and there isn’t a city yet for where they are it can be automatically added), Elaine
+
+
+get on aws
+
+memcached for caching geoIP stuff
+
+apache for load balancing
+
+search posts (haystack)
+

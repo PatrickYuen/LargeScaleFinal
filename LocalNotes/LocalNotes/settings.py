@@ -15,7 +15,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
+GEOIP_PATH = os.path.join(BASE_DIR, "LocalNotes/GeoLite2-City.mmdb")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
@@ -26,7 +26,6 @@ SECRET_KEY = '&lcse=6lp@zuv4gtnv#((dr^gqq_v!fm=xtewor24ixg9ooeur'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
