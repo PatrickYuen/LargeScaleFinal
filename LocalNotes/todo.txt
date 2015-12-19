@@ -25,5 +25,46 @@ memcached for caching geoIP stuff
 
 apache for load balancing
 
-search posts (haystack)
+New considerations=====================================================
+
+Patrick Yuen
+Posts: (Caching?) 
+Delete
+Edit
+
+Patrick Yuen
+Search:
+Make the search bar bigger
+case insensitive and contains ( over cached information ) 
+
+Login: (Test User Auth: Will solve tonight)
+Middleware that stores our caches: 
+	if no session exists (meaning you see a login button), then we validate the password with the post’s username in the User table/DB. If validated, we then create a new sessionID based on password, write the corresponding info + sessionId in cache, then set the cookie with the sessionID.
+this is done already with django’s built in auth user middleware, etc…
+-Register: Write-through to DB and login
+
+Elaine
+City:  
+Cache entire city table : “Cities”: List of city objects
+
+Patrick Yuen
+Post to fade out with set portion of the text
+Align Text nicely
+Pagination
+Cities page
+Search Page
+Post Drop Down
+
+Patrick Yuen/Daniel
+Sharding the Database: 
+Make a middleware
+2 databases: Storing city and post
+1 Database: Django Users
+
+Patrick Yuen/Daniel
+User: 
+To display posts ( fans-in on shards made unique by title and time)
+
+Elaine
+GeoIP: make a global variable
 

@@ -117,6 +117,7 @@ def register(request):
 						password = request.POST.get('password'),
 						 )
 		selected_user.save()
+		request.session['member_id'] = selected_user.id
 		return HttpResponseRedirect(reverse('noteboard:UserView', args=(selected_user.id,)))
 		
 	return HttpResponseRedirect(reverse('noteboard:search', args=()))

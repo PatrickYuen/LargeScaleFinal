@@ -12,10 +12,15 @@
 	<h2> Country: {{ city.country }} </h2>
 	</div>
 
-	<br><br><br>
+	<br>
 
 	{% for post in posts_list %}
-		<div class="boxed">Title: {{ post.title }} </div>
+		<div class="boxed">
+			<h3> Title: {{ post.title }} </h3>
+			<h4> Poster: {{ post.user }} <h4>
+			<h4> Created: {{ post.created }} </h4> 
+			{{ post.body }}
+		</div>
 		<br>
 	{% endfor %}
 		
