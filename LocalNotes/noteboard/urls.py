@@ -31,7 +31,7 @@ urlpatterns = [
 	url(r'^users/(?P<pk>[0-9]+)/$', views.UserView.as_view(), name='UserView'),
 	
 	#login
-	# url(r'^login/$', views.login, name='login'),
+	url(r'^login/$', views.login_view, name='login_view'),
 	url(r'^logout/$', views.logout_view, name='logout_view'),
 
 	url('^', include('django.contrib.auth.urls'))

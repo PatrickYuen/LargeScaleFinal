@@ -41,7 +41,7 @@ def register(request):
         login(request, user)
       else:
         raise Exception
-      return main(request)
+      return HttpResponseRedirect(reverse('noteboard:UserView', args=(user.id,)))
   else:
     form = UserCreationForm
   return render(request, 'noteboard/register.html', {'form' : form})
@@ -124,21 +124,6 @@ def error(request, err_message):
     context['messages'] = err_message
     context['user'] = request.user
     return render(request, 'noteboard/city_error.html', context)
-	
-# class UserView(generic.DetailView):
-# 	model = User
-# 	template_name = 'noteboard/user.html'
-# 	context_object_name = 'target_user'
-
-# 	def get_object(self, queryset=None):
-# 		if queryset is None:
-# 			queryset = self.get_queryset()
-# 		return get_object_or_404(queryset, **{username_field: self.kwargs['username']})
-
-# 	def get_context_data(self, **kwargs):
-# 		ctx = super(UserView, self).get_context_data(**kwargs)
-# 		ctx['posts_list'] = Post.objects.filter(user=ctx['target_user']).order_by('-created')[:5]
-# 		return ctx
 
 class UserView(generic.DetailView):
 	model = User
@@ -149,26 +134,20 @@ class UserView(generic.DetailView):
 		context['user'] = self.object
 		context['posts_list'] = Post.objects.filter(user = self.object).order_by('-created')[:5]
 		return context
-		
-	
-	# def get_context_data(self, **kwargs):
-	# 	context = super(UserView, self).get_context_data(**kwargs)  
-	# 	# context['user'] = request.user
-	# 	context['posts_list'] = Post.objects.filter(user = self.object).order_by('-created')[:5]
-	# 	return context
 
+def login_view(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username,
+                        password=password)
+
+    if user is not None:
+      login(request, user)
+      return HttpResponseRedirect(reverse('noteboard:UserView', args=(user.id,)))
+    else:
+      # return render_to_response('login_error', message='Save complete')
+      return HttpResponse("Your username and password didn't match.")
     
-        
-            
-
-
-# def login(request):
-#     m = User.objects.get(username=request.POST['username'])
-#     if m.password == request.POST['password']:
-#         request.session['member_id'] = m.id
-#         return HttpResponseRedirect(reverse('noteboard:UserView', args=(m.id,)))
-#     else:
-#         return HttpResponse("Your username and password didn't match.")
 		
 def logout_view(request):
 	logout(request)

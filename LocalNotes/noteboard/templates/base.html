@@ -103,7 +103,7 @@
 
     <div class="modal-body">
 
-      <form action={% url 'noteboard:login' %}  method="post">
+      <form action={% url 'noteboard:login_view' %}  method="post">
         <span id="close_login" onclick="close()" class="glypicon glyphicon-remove-circle pull-right"></span>
         {% csrf_token %}
         <div class="form-group">
