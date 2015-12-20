@@ -25,49 +25,54 @@ def logical_shard_for_city(city_id):
   print "Looking for shard for city %d" % city_id
   return city_id % NUM_LOGICAL_SHARDS
 
-class cityRouter(object):
+class CityRouter(object):
 
-  def _database_of(self, city_id):
-    return logical_to_physical(logical_shard_for_city(city_id))
+	def _database_of(self, city_id):
+		return logical_to_physical(logical_shard_for_city(city_id))
 
-  def _db_for_read_write(self, model, **hints):
-    """ """
-    # Auth reads always go to the auth sub-system
-    if model._meta.app_label == 'auth':
-      return 'auth_db'
-    # For now, sessions are stored on the auth sub-system, too.
-    if model._meta.app_label == 'sessions':
-      return 'auth_db'
-    db = None    
-    try:
-      instance = hints['instance']
-      db = self._database_of(instance.city_id)
-    except AttributeError:
-      # For the city model the key is id.
-      db = self._database_of(instance.id)
-    except KeyError:
-      try:
-        db = self._database_of(int(hints['city_id']))
-      except KeyError:
-        print "No instance in hints"
-    print "Returning", db
-    return db
+	def _db_for_read_write(self, model, **hints):
+		""" """
+		print "peanut"
+		print model._meta.app_label
+		# Auth reads always go to the auth sub-system
+		if model._meta.app_label == 'auth':
+			return 'auth_db'
+		# For now, sessions are stored on the auth sub-system, too.
+		if model._meta.app_label == 'sessions':
+			return 'auth_db'
+			
+		db = 'db1' 
+		try:
+			print "sdfsdflkjsdfklsdjf"
+			print hints
+			instance = hints['instance']
+			db = self._database_of(instance.city_id)
+		except AttributeError:
+			# For the city model the key is id.
+			db = self._database_of(instance.id)
+		except KeyError:
+			try:
+				db = self._database_of(int(hints['city_id']))
+			except KeyError:
+				print "No instance in hints"
+		print "Returning", db
+		return db
   
-  def db_for_read(self, model, **hints):
-    """ """
-    return self._db_for_read_write(model, **hints)
+	def db_for_read(self, model, **hints):
+		""" """
+		return self._db_for_read_write(model, **hints)
   
-  def db_for_write(self, model, **hints):
-    """ """
-    return self._db_for_read_write(model, **hints)
+	def db_for_write(self, model, **hints):
+		""" """
+		return self._db_for_read_write(model, **hints)
 
-  def allow_relation(self, obj1, obj2, **hints):
-    if (obj1._meta.app_label == 'auth' and obj2._meta.app_label != 'auth') or \
-      (obj1._meta.app_label != 'auth' and obj2._meta.app_label == 'auth'):
-      print "Rejecting cross-table relationship", obj1._meta.app_label, \
-        obj2._meta.app_label
-      return False
-    return True
+	def allow_relation(self, obj1, obj2, **hints):
+		if (obj1._meta.app_label == 'auth' and obj2._meta.app_label != 'auth') or \
+		(obj1._meta.app_label != 'auth' and obj2._meta.app_label == 'auth'):
+			print "Rejecting cross-table relationship", obj1._meta.app_label, \
+			obj2._meta.app_label
+			return False
+		return True
 
-  def allow_migrate(self, db, app_label, model=None, **hints):
-    return True
+	def allow_migrate(self, db, app_label, model=None, **hints):
+		return True

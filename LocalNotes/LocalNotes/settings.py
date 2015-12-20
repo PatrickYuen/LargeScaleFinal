@@ -79,34 +79,26 @@ WSGI_APPLICATION = 'LocalNotes.wsgi.application'
 
 #putting passwords in here hardcoded probably a bad idea
 DATABASES = {
-  'default': { },
-  'auth_db': {
-    'ENGINE': 'django.db.backends.mysql',
-    'NAME': 'largescale',
-    'USER': 'root',
-    'PASSWORD': 'Inviciljigen1!',
-    'HOST': '127.0.0.1',
-    'PORT': '3306',
-  },
-  'db1': {
-    'ENGINE': 'django.db.backends.mysql',
-    'NAME': 'largescale',
-    'USER': 'root',
-    'PASSWORD': 'Inviciljigen1!',
-    'HOST': '127.0.0.1',
-    'PORT': '3307',
-  },
-  'db2': {
-    'ENGINE': 'django.db.backends.mysql',
-    'NAME': 'largescale',
-    'USER': 'root',
-    'PASSWORD': 'Inviciljigen1!',
-    'HOST': '127.0.0.1',
-    'PORT': '3308',
-  },
+	'default': {},
+	'db1': {
+		'ENGINE': 'django.db.backends.mysql',
+		'NAME': 'largescale',
+		'USER': 'root',
+		'PASSWORD': 'Inviciljigen1!',
+		'HOST': '127.0.0.1',
+		'PORT': '3306',
+	},
+	'db2': {
+		'ENGINE': 'django.db.backends.mysql',
+		'NAME': 'largescale2',
+		'USER': 'root',
+		'PASSWORD': 'Inviciljigen1!',
+		'HOST': '127.0.0.1',
+		'PORT': '3306',
+	},
 }
 
-DATABASE_ROUTERS = ['noteboard.routers.UserRouter']
+DATABASE_ROUTERS = ['noteboard.routers.CityRouter']
 
 
 # Password validation
