@@ -142,12 +142,16 @@ def error(request, err_message):
 
 @login_required
 def delete(request, id):
-	delpost = Post.objects.get(pk = id)
-	userid = delpost.user.id
-	if userid == request.user.id:
+    delpost = Post.objects.get(pk=id)
+    userid = delpost.user.id
+    if userid == request.user.id:
 		delpost.delete()
-	return HttpResponseRedirect(reverse('noteboard:UserView', args=(userid,)))
 
+    v = request.POST.get('view')
+    if v == "user":
+	    return HttpResponseRedirect(reverse('noteboard:UserView', args=(userid,)))
+
+    return HttpResponseRedirect(reverse('noteboard:CityView', args=(delpost.city.pk,)))
 @login_required	
 def update(request):
     post_id = int(request.POST.get("hid"))
