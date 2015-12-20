@@ -29,8 +29,7 @@ def search(request):
 		context['user'] = request.user
 
 	if request.method == 'POST':
-		cities_list = City.objects.filter(name__contains = request.POST.get('keyword'))[:5]
-
+		cities_list = City.objects.filter(name__icontains = request.POST.get('keyword').strip())[:5]
 		context = {'cities_list': cities_list}		
 
 	return render(request, 'noteboard/search.html', context)
