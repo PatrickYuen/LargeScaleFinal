@@ -12,7 +12,7 @@ def get_all_cities():
     print all_cities
     if all_cities is None:
         all_cities = City.objects.all()
-        cache.set("cities", all_cities, 5*60)
+        cache.set("cities", all_cities, 24*60*60)
 
     return all_cities
 
