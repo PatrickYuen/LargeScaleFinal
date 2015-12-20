@@ -35,6 +35,9 @@ def search(request):
 	return render(request, 'noteboard/search.html', context)
 
 def register(request):
+  if request.user.is_authenticated():
+    return HttpResponseRedirect(reverse('noteboard:UserView', args=(request.user.id,)))
+
   if request.method == 'POST':
     form = UserCreationForm(request.POST)
     if form.is_valid():
