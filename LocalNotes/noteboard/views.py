@@ -172,15 +172,22 @@ def delete(request, id, cityid):
 
 @login_required	
 def update(request):
+    print "TESTING START"
     post_id = int(request.POST.get("hid"))
-
-    up_post = Post.objects.get(pk=post_id)
-    user_id = up_post.user.id
+    cityid = int(request.POST.get("hid_city"))
+    print post_id, cityid
+    db = logical_to_physical(logical_shard_for_city(cityid))
+    up_post_list = Post.objects.filter(pk=post_id)
+    set_shard(up_post_list, db)
+    up_post = up_post_list[0]
+    print up_post
+    user_id = up_post.userid
+    print "TESTING end"
     if request.method == 'POST':
         if user_id == request.user.id:
             up_post.title = request.POST.get('title')
             up_post.body = request.POST.get('body')
-            up_post.save()
+            up_post.save(using=logical_to_physical(logical_shard_for_city(cityid)))
         v = request.POST.get('view')
         if v == "user":
             return HttpResponseRedirect(reverse('noteboard:UserView', args=(user_id,)))

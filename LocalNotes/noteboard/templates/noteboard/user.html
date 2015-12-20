@@ -16,6 +16,7 @@
         <div class="modal-body">
             <form action="{% url 'noteboard:update'%}" method="post">
                 <input type="hidden" name="hid" id="hid" value=0 />
+                 <input type="hidden" id="hid_city" name="hid_city" value=0 >
                 <span id="close_update" onclick="close()" class="glypicon glyphicon-remove-circle pull-right"></span>
                 {% csrf_token %}
                 <input type="hidden" name="view" value="user" />
@@ -41,7 +42,7 @@
                 <input type="hidden" name="view" value="user" />
             </form>
             
-            <button class="btn btn-primary pull-left update" onclick="test( {{ post.id }},'{{ post.title }}','{{ post.body }}')"> Edit </button>
+            <button class="btn btn-primary pull-left update" onclick="test( {{ post.id }},'{{ post.title }}','{{ post.body }}', {{post.city.id}})"> Edit </button>
 
             {% endif %}
 			<h3> Title: {{ post.title }} </h3>
@@ -58,9 +59,10 @@
 	<br>
 	
 	<script>
-		function test(id, title, body) {
+		function test(id, title, body, city_id) {
 			$("#update_modal").modal({show:true});
             $("#hid").val(id);
+            $("#hid_city").val(city_id);
 			document.getElementById("update_title").value = title;
 			document.getElementById("update_body").value = body;
 		}
