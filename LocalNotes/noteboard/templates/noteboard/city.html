@@ -18,11 +18,15 @@
 	{% for post in posts_list %}
 		<div class="boxed">
 			{% if user.id == post.user.id %}
-			<form action="{% url 'noteboard:delete' id=post.pk%}" method="post">
+			<form action="{% url 'noteboard:delete' id=post.pk %}" method="post">
 				{% csrf_token %}
 				<button class="btn btn-primary pull-right"> Delete </button>
 			</form>
-			<button class="btn btn-primary pull-left update" onclick= test("{{ post.id }}","{{ post.title }}","{{ post.body }}")> Edit </button>
+            <form action="{% url 'noteboard:update' id=post.pk %}">
+                {% csrf_token %}
+                <button class="btn btn-primary pull-left update" onclick= test("{{ post.id }}","{{ post.title }}","{{ post.body }}")> Edit </button>
+            </form>
+
 			{% endif %}
 			<h3> Title: {{ post.title }} </h3>
 			<center>
@@ -39,5 +43,18 @@
 	{% endfor %}
 		
 	<br>
-		  
+		<script>
+		function test(id, title, body) {
+			$("#update_modal").modal({show:true});
+			document.getElementById("update_title").value = title;
+			document.getElementById("update_body").value = body;
+		}
+
+		$(document).ready(function(){
+
+			$("#close_update").on('click', function() {
+				$("#update_modal").modal('hide');
+			});
+		});
+	</script>
 {% endblock %}
