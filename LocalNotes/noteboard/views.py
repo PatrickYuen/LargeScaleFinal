@@ -160,7 +160,7 @@ def delete(request, id, cityid):
     db = logical_to_physical(logical_shard_for_city(int(cityid)))
     delpost = Post.objects.filter(pk=id)
     set_shard(delpost, db)
-    userid = delpost[0].userid
+    userid = delpost[0].userid 
     if userid == request.user.id:
 		delpost.delete()
 
@@ -168,7 +168,7 @@ def delete(request, id, cityid):
     if v == "user":
 	    return HttpResponseRedirect(reverse('noteboard:UserView', args=(userid,)))
 
-    return HttpResponseRedirect(reverse('noteboard:CityView', args=(delpost.city.pk,)))
+    return HttpResponseRedirect(reverse('noteboard:CityView', args=(cityid)))
 
 @login_required	
 def update(request):
