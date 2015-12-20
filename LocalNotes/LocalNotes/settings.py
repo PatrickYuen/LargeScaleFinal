@@ -74,29 +74,33 @@ WSGI_APPLICATION = 'LocalNotes.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+#putting passwords in here hardcoded probably a bad idea
 DATABASES = {
-    'default': {
-        'auth': 'django.db.backends.mysql',
-		'OPTIONS': {
-			'read_default_file': os.path.join(BASE_DIR, 'my.cnf')
-		},
-
-        '0': {
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': os.path.join(BASE_DIR, 'my.cnf')
-        },
-
-        '1': {
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': os.path.join(BASE_DIR, 'my.cnf')
-        }
-    }
-    #'default': {
-    #    'ENGINE': 'django.db.backends.sqlite3',
-    #    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    #}
+  'default': { },
+  'auth_db': {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'largescale',
+    'USER': 'root',
+    'PASSWORD': 'Inviciljigen1!',
+    'HOST': '127.0.0.1',
+    'PORT': '3306',
+  },
+  'db1': {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'largescale',
+    'USER': 'root',
+    'PASSWORD': 'Inviciljigen1!',
+    'HOST': '127.0.0.1',
+    'PORT': '3307',
+  },
+  'db2': {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'largescale',
+    'USER': 'root',
+    'PASSWORD': 'Inviciljigen1!',
+    'HOST': '127.0.0.1',
+    'PORT': '3308',
+  },
 }
 
 DATABASE_ROUTERS = ['noteboard.routers.UserRouter']
