@@ -16,6 +16,13 @@
 
 	{% for post in posts_list %}
 		<div class="boxed">
+			{% if user.id == post.user.id %}
+			<form action="{% url 'noteboard:delete' id=post.pk%}" method="post">
+				{% csrf_token %}
+				<button class="btn btn-primary pull-right"> Delete </button>
+			</form>
+			<button class="btn btn-primary pull-left update" onclick= test("{{ post.id }}","{{ post.title }}","{{ post.body }}")> Edit </button>
+			{% endif %}
 			<h3> Title: {{ post.title }} </h3>
 				Poster: {{ post.user }}   Created: {{ post.created }}  
 				<br><br>
