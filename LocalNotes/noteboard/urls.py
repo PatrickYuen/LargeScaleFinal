@@ -18,8 +18,6 @@ urlpatterns = [
 
 	#City error page
     url(r'^error/$', views.error, name='error'),
-	#Post Page
-	url(r'^post/$', views.post, name='post'),
 	
 	#All City Page
 	url(r'^cities/$', views.CitiesView.as_view(), name='CitiesView'),

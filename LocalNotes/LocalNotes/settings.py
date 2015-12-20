@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_URL = '/noteboard/login/'
+LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/search'
 
 # Application definition
