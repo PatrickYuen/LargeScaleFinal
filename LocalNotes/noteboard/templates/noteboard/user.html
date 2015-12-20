@@ -57,16 +57,21 @@
 	<br>
 	
 	<script>
-		function test(id, title, body) {
-			$("#update_modal").modal({show:true});
-			document.getElementById("update_title").value = title;
-			document.getElementById("update_body").value = body;
-		}
+{#		function test(id, title, body) {#}
+{#			$("#update_modal").modal({show:true});#}
+{#			document.getElementById("update_title").value = title;#}
+{#			document.getElementById("update_body").value = body;#}
+{#		}#}
 		
 		$(document).ready(function(){
-			
+            $("#update").on('click', function(){
+                $("#update_modal").modal({show:true});
+                $("#update_title").value = title;
+                $("#update_body").value = body;
+            });
+
 			$("#close_update").on('click', function() {
-				$("#update_modal").modal('hide');
+				$("#update_modal").modal({show: true});
 			});
 		});
 	</script>
