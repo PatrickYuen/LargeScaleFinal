@@ -17,9 +17,9 @@
 	{% for post in posts_list %}
 		<div class="boxed">
 			<h3> Title: {{ post.title }} </h3>
-			<h4> Poster: {{ post.user }} <h4>
-			<h4> Created: {{ post.created }} </h4> 
-			{{ post.body }}
+				Poster: {{ post.user }}   Created: {{ post.created }}  
+				<br><br>
+			<h4> {{ post.body }} </h4>
 		</div>
 		<br>
 	{% endfor %}
