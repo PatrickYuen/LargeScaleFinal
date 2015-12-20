@@ -6,12 +6,10 @@ LOGICAL_TO_PHYSICAL = (
   'db1', 'db2', 'db1', 'db2', 'db1', 'db2', 'db1', 'db2',
 )
 
-# returns a dictionary mapping a shard to all the users in that shard
-# from user_ids.
-def bucket_users_into_shards(user_ids):
+def bucket_cities_into_shards(city_ids):
   d = {}
-  for id in user_ids:
-    shard = logical_shard_for_user(id)
+  for id in city_ids:
+    shard = logical_shard_for_city(id)
     if not shard in d:
       d[shard] = []
     d[shard].append(id)
@@ -23,14 +21,14 @@ def logical_to_physical(logical):
     raise Exception("shard out of bounds %d" % logical)
   return LOGICAL_TO_PHYSICAL[logical] 
  
-def logical_shard_for_user(user_id):
-  print "Looking for shard for user %d" % user_id
-  return user_id % NUM_LOGICAL_SHARDS
+def logical_shard_for_city(city_id):
+  print "Looking for shard for city %d" % city_id
+  return city_id % NUM_LOGICAL_SHARDS
 
-class UserRouter(object):
+class cityRouter(object):
 
-  def _database_of(self, user_id):
-    return logical_to_physical(logical_shard_for_user(user_id))
+  def _database_of(self, city_id):
+    return logical_to_physical(logical_shard_for_city(city_id))
 
   def _db_for_read_write(self, model, **hints):
     """ """
@@ -43,13 +41,13 @@ class UserRouter(object):
     db = None    
     try:
       instance = hints['instance']
-      db = self._database_of(instance.user_id)
+      db = self._database_of(instance.city_id)
     except AttributeError:
-      # For the user model the key is id.
+      # For the city model the key is id.
       db = self._database_of(instance.id)
     except KeyError:
       try:
-        db = self._database_of(int(hints['user_id']))
+        db = self._database_of(int(hints['city_id']))
       except KeyError:
         print "No instance in hints"
     print "Returning", db
