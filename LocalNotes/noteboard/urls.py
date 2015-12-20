@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.contrib.auth import views as auth_views
 
 from . import views
 from .views import *
@@ -27,9 +28,11 @@ urlpatterns = [
 	url(r'^users/(?P<pk>[0-9]+)/$', views.UserView.as_view(), name='UserView'),
 	
 	#login
-	url(r'^login/$', views.login, name='login'),
-	url(r'^logout/$', views.logout, name='logout'),
+	url(r'^login/$', views.login_view, name='login_view'),
+	url(r'^logout/$', views.logout_view, name='logout_view'),
 	
 	#Post, Delete, Edit View
 	url(r'^post/$', views.post, name='post'),
+
+	url('^', include('django.contrib.auth.urls'))
 ]
