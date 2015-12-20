@@ -9,18 +9,37 @@
 	  <div class="travelnotes-header">
         <h1 class="travelnotes-title">Traveler's Guide</h1>
       </div>
-
+	
+	<br>
+	
 	<form action={% url 'noteboard:search' %} method="post">
 		{% csrf_token %}
-		<input type="text" name="keyword" ><input type="submit" value="Search">
+		<div class="container" id="search-container">
+		<div class="row">
+			<div class="col-md-1">
+				<div id="custom-search-input">
+					<div class="input-group ">
+						<input type="text" class="form-control input-lg" placeholder="Search" name = "keyword"/>
+						<span class="input-group-btn">
+							<button class="btn btn-info btn-lg" type="button">
+								<i class="glyphicon glyphicon-search"></i>
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
 	</form>
 	
-	<br> 
+	<br> <br>
 	
 	{% for city in cities_list %}
 		<a href={% url 'noteboard:CityView' pk=city.pk %}>
 			<div class="boxed"> {{ city.name }} </div>
 		</a>
 	{% endfor %}
+	
+	<br> <br>
 	
 {% endblock %}

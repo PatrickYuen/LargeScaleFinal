@@ -30,6 +30,7 @@ urlpatterns = [
 	url(r'^login/$', views.login, name='login'),
 	url(r'^logout/$', views.logout, name='logout'),
 	
-	#Post, Delete, Edit View
-	url(r'^post/$', views.post, name='post'),
+	#Delete, Edit View
+	url(r'^delete/(?P<id>[0-9]+)/ $', views.delete, name='delete'),
+	url(r'^update/(?P<id>[0-9]+)/ $', views.update, name='update'),
 ]

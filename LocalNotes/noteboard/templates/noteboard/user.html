@@ -6,45 +6,60 @@
 {% endblock %}
 	  
 {% block main %} 
-
-	<section id="modal" class="modal fade">
-
-		<div class="modal-body">
-
-			<form action= method="post">
-				<span id="close_post" onclick="close()" class="glypicon glyphicon-remove-circle pull-right"></span>
-				{% csrf_token %}
-				<div class="form-group">
-					<label for="title">Title</label>
-					<input type="text" class="form-control" name="title" >
-
-					<label for="title">Body</label>
-					<input type="textarea" class="form-control" name="body" >
-				</div>
-				
-				<button type="submit" class="btn btn-danger">Submit</button>
-			</form>
-
-		</div>
-
-	</section>
 	
 	<div class="travelnotes-header">
 	<h1 class="travelnotes-title"> Username: {{ user.username }}</h1>
-	
 	</div>
 	<br>
+	
+	<section id="update_modal" class="modal fade">
+		<div class="modal-body">
+			<form action= method="post">
+				<span id="close_update" onclick="close()" class="glypicon glyphicon-remove-circle pull-right"></span>
+				{% csrf_token %}
+
+				<div class="form-group">
+					<label for="title">Title</label>
+					<input id="update_title" type="text" class="form-control" name="title" value="" required>
+					
+					<label for="title">Body</label>
+					<input id="update_body" type="textarea" class="form-control" name="body" required>
+				</div>	
+				<button type="submit" class="btn btn-danger">Submit</button>
+			</form>
+		</div>
+	</section>
 
 	{% for post in posts_list %}
 		<div class="boxed"> 
+			<form action="{% url 'noteboard:delete' id=post.pk%}" method="post">
+				{% csrf_token %}
+				<button class="btn btn-primary pull-right"> Delete </button>
+			</form>
+			<button class="btn btn-primary pull-left update" onclick= test("{{ post.id }}","{{ post.title }}","{{ post.body }}")> Edit </button>
 			<h3> Title: {{ post.title }} </h3>
-			<h4> Poster: {{ post.user }} <h4>
-			<h4> Created: {{ post.created }} </h4> 
-			{{ post.body }}
+				Poster: {{ post.user }}   Created: {{ post.created }} 
+				<br><br>				
+			<h4> {{ post.body }} </h4>
+			<br>
 		</div>
-		<br>
 	{% endfor %}
 		
 	<br>
-		  
+	
+	<script>
+		function test(id, title, body) {
+			$("#update_modal").modal({show:true});
+			document.getElementById("update_title").value = title;
+			document.getElementById("update_body").value = body;
+		}
+		
+		$(document).ready(function(){
+			
+			$("#close_update").on('click', function() {
+				$("#update_modal").modal('hide');
+			});
+		});
+	</script>
+	
 {% endblock %}

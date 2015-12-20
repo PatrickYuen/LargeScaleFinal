@@ -19,7 +19,7 @@ def search(request):
 		context['user'] = None	
 
 	if request.method == 'POST':
-		cities_list = City.objects.filter(name__contains = request.POST.get('keyword'))[:5]
+		cities_list = City.objects.filter(name__icontains = request.POST.get('keyword').strip())[:5]
 		context = {'cities_list': cities_list}		
 
 	return render(request, 'noteboard/search.html', context)
@@ -59,7 +59,6 @@ def post(request):
     current_city = geo.city(str(ip_address))
     city_name = str(current_city['city'])
     country_name = str(current_city['country_name'])
-    print city_name
 
     input_city_country = request.POST.get('city')
 
@@ -99,7 +98,6 @@ def error(request, err_message):
     context['user'] = User.objects.get(id = request.session['member_id'])
     return render(request, 'noteboard/city_error.html', context)
 
-	
 class UserView(generic.DetailView):
 	model = User
 	template_name = 'noteboard/user.html'
@@ -109,6 +107,20 @@ class UserView(generic.DetailView):
 		context['user'] = self.object
 		context['posts_list'] = Post.objects.filter(user = self.object).order_by('-created')[:5]
 		return context
+		
+def delete(request, id):
+	delpost = Post.objects.get(pk = id)
+	userid = delpost.user.id
+	delpost.delete()
+	return HttpResponseRedirect(reverse('noteboard:UserView', args=(userid,)))
+	
+def update(request, id):
+	uppost = Post.objects.get(pk = id)
+	userid = uppost.user.id
+	uppost.title = request.POST.get('title')
+	uppost.body = request.POST.get('body')
+	uppost.save()
+	return HttpResponseRedirect(reverse('noteboard:UserView', args=(userid,)))
 		
 def register(request):
 	if request.method == 'POST':

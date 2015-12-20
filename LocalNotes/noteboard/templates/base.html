@@ -94,7 +94,7 @@
                     {% load noteboard_tags %}
                     {% get_all_cities as cities %}
                     <select class="form-control" name="city">
-                        <option value = ""></option>
+                        <option value = "" disabled selected>Current City</option>
 
                         {% for city in cities %}
                             <option value="{{ city.name }}+{{ city.country }}"> {{ city.name }}, {{ city.country}} </option>
