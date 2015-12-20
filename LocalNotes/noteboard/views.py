@@ -139,7 +139,7 @@ class UserView(generic.DetailView):
 	
 	def get_context_data(self, **kwargs):
 		context = super(UserView, self).get_context_data(**kwargs)  
-		context['user'] = self.object
+		context['user'] = self.request.user
 		context['posts_list'] = Post.objects.filter(user = self.object).order_by('-created')[:5]
 		return context
 
