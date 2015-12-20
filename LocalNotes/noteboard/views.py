@@ -80,7 +80,7 @@ class CityView(generic.DetailView):
 	template_name = 'noteboard/city.html'
 	
 	def get_context_data(self, **kwargs):
-		context = super(CityView, self).get_context_data(**kwargs)  
+		context = super(CityView, self).get_context_data(**kwargs)
 		context['city'] = self.object
 		context['user'] = ''
 		if self.request.user.is_authenticated():
@@ -134,6 +134,13 @@ def post(request):
         return error(request, "The city selected does not match the current city you are in, please re-add post.")
 
 @login_required
+def error(request, err_message):
+		context = dict()
+		context['messages'] = err_message
+		context['user'] = request.user
+		return render(request, 'noteboard/city_error.html', context)
+
+@login_required
 def delete(request, id):
 	delpost = Post.objects.get(pk = id)
 	userid = delpost.user.id
@@ -142,21 +149,21 @@ def delete(request, id):
 	return HttpResponseRedirect(reverse('noteboard:UserView', args=(userid,)))
 
 @login_required	
-def update(request, id):
-	uppost = Post.objects.get(pk = id)
-	userid = uppost.user.id
-	if userid == request.user.id:
-		uppost.title = request.POST.get('title')
-		uppost.body = request.POST.get('body')
-		uppost.save()
-	return HttpResponseRedirect(reverse('noteboard:UserView', args=(userid,)))
+def update(request):
+    post_id = int(request.POST.get("hid"))
 
-@login_required
-def error(request, err_message):
-		context = dict()
-		context['messages'] = err_message
-		context['user'] = request.user
-		return render(request, 'noteboard/city_error.html', context)
+    up_post = Post.objects.get(pk=post_id)
+    user_id = up_post.user.id
+    if request.method == 'POST':
+        if user_id == request.user.id:
+            up_post.title = request.POST.get('title')
+            up_post.body = request.POST.get('body')
+            up_post.save()
+        v = request.POST.get('view')
+        if v == "user":
+            return HttpResponseRedirect(reverse('noteboard:UserView', args=(user_id,)))
+
+    return HttpResponseRedirect(reverse('noteboard:CityView', args=(up_post.city.pk,)))
 
 class UserView(generic.DetailView):
 	model = User
