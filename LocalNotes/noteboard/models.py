@@ -15,7 +15,8 @@ class City(models.Model):
 class Post(models.Model):
 	title = models.CharField(max_length=50)
 	city = models.ForeignKey(City, null=False)
-	user = models.ForeignKey(settings.AUTH_USER_MODEL)
+	userid = models.IntegerField(default=0, null=False) #Not a foreign key because user is in seperate DB
+	user = models.CharField(max_length=200)
 	body = models.TextField()
 	created = models.DateTimeField(auto_now_add=True)
 

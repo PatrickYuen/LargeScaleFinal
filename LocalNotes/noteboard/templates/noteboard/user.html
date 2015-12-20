@@ -45,7 +45,7 @@
 
             {% endif %}
 			<h3> Title: {{ post.title }} </h3>
-				Poster: <a href={% url 'noteboard:UserView' pk=post.user.id %}>{{ post.user }}</a>
+				Poster: <a href={% url 'noteboard:UserView' pk=post.userid %}>{{ post.user }}</a>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
 				City: <a href={% url 'noteboard:CityView' pk=post.city.id %}>{{ post.city }}</a><br>   
 				Created: {{ post.created }} 
