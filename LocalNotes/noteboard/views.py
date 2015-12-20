@@ -29,7 +29,7 @@ def search(request):
 		context['user'] = request.user
 
 	if request.method == 'POST':
-		cities_list = City.objects.filter(name__icontains = request.POST.get('keyword').strip())[:5]
+		cities_list = cache.get("cities").filter(name__icontains = request.POST.get('keyword').strip())[:5]
 		context = {'cities_list': cities_list}		
 
 	return render(request, 'noteboard/search.html', context)
@@ -59,7 +59,7 @@ class CitiesView(generic.ListView):
 	context_object_name = 'cities_list'
 
 	def get_queryset(self):
-		return City.objects.order_by('name')[:5]
+		return cache.get("cities").order_by('name')[:5]
 		
 	def get_context_data(self, **kwargs):
 		context = super(CitiesView, self).get_context_data(**kwargs)  
