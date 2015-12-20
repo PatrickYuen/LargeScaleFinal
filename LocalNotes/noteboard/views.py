@@ -100,7 +100,7 @@ def post(request):
         except City.DoesNotExist:
             user_city = City(name=city_name, country=country_name, summary="Please add summary")
             user_city.save()
-            cache.set("cities", City.objects.all())
+            cache.set("cities", City.objects.all(), 2*60)
 
 
         input_city = city_name
@@ -152,8 +152,7 @@ class UserView(generic.DetailView):
 def login_view(request):
 		username = request.POST['username']
 		password = request.POST['password']
-		user = authenticate(username=username,
-												password=password)
+		user = authenticate(username=username, password=password)
 
 		if user is not None:
 			login(request, user)
