@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_URL = '/noteboard/login/'
+LOGIN_REDIRECT_URL = '/search'
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -144,4 +147,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies" 
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': [
+            '52.23.228.83:11211',
+        ]
+    }
+}

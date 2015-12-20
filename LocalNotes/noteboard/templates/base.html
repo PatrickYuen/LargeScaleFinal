@@ -9,8 +9,8 @@
     <meta name="author" content="">
     <link rel="icon" href={% static "icons/beaker.ico" %}>
     <title>Traveler's Guide!</title>
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
     <!-- Bootstrap core CSS -->
     <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
@@ -19,108 +19,152 @@
     <link href="{% static "css/travelnotes.css" %}" rel="stylesheet">
 
   </head>
+  
+    <style>
+  <!--Classes plzz-->
+  #register_modal {
+    width:400px;
+    background: #CACACA;
+    height: 250px;
+    box-shadow: 0px 0px 10px 4px;
+    margin: 0 auto;
+    margin-top: 12%;
+    border-radius:5px;
+  }
+  
+  #login_modal {
+    width:400px;
+    background: #CACACA;
+    height: 200px;
+    box-shadow: 0px 0px 10px 4px;
+    margin: 0 auto;
+    margin-top: 12%;
+    border-radius:5px;
+  }
+  
+  #post_modal {
+    width:400px;
+    background: #CACACA;
+    height: 270px;
+    box-shadow: 0px 0px 10px 4px;
+    margin: 0 auto;
+    margin-top: 12%;
+    border-radius:5px;
+  }
+  
+  #post_body {
+    height: 100px;
+    vertical-align: top;
+    line-height: 0px;
+  }
+  </style>
 
   <body>
 
     <div class="travelnotes-masthead">
       <div class="container">
         <nav class="travelnotes-nav">
-		  	{% block navigation_bar %} {% endblock %}
-			{% if not user %}
-				<a id="register" class="travelnotes-nav-item pull-right" >Register</a>
-				<a id="login" class="travelnotes-nav-item pull-right" >Login</a>
-			{% else %}
-				<a class="travelnotes-nav-item pull-right" href={% url 'noteboard:logout' %}>Logout</a>
-				<a class="travelnotes-nav-item pull-right" href={% url 'noteboard:UserView' pk=user.pk %}>Welcome {{ user.username }}</a>	
-			{% endif %}
+        {% block navigation_bar %} {% endblock %}
+
+      {% if not user %}
+        <a class="travelnotes-nav-item pull-right" href="{% url 'noteboard:register' %}">Register</a>
+        <a id="login" class="travelnotes-nav-item pull-right" >Login</a>
+      {% else %}
+        <a class="travelnotes-nav-item pull-right" href={% url 'noteboard:logout_view' %}>Logout</a>
+        <a class="travelnotes-nav-item pull-right" href={% url 'noteboard:UserView' pk=user.id %}>Welcome {{ user.username }}</a> 
+      {% endif %}
+
         </nav>
       </div>
     </div>
-	
-	<section id="register_modal" class="modal fade">
+  
+  <section id="register_modal" class="modal fade">
 
-		<div class="modal-body">
+    <div class="modal-body">
 
-			<form action={% url 'noteboard:register' %}  method="post">
-				<span id="close_register" onclick="close()" class="glypicon glyphicon-remove-circle pull-right"></span>
-				{% csrf_token %}
-				<div class="form-group">
-					<label>Username:</label>
-					<input type="text" class="form-control" name="username" >
+      <form action={% url 'noteboard:register' %}  method="post">
+        <span id="close_register" onclick="close()" class="glypicon glyphicon-remove-circle pull-right"></span>
+        {% csrf_token %}
+        <div class="form-group">
+          <label>Username:</label>
+          <input type="text" class="form-control" name="username" >
 
-					<label>Password</label>
-					<input type="text" class="form-control" name="password" >
-				</div>
-				
-				<button type="submit" class="btn btn-danger">Register</button>
-			</form>
+          <label>Password</label>
+          <input type="text" class="form-control" name="password" >
+        </div>
+        
+        <button type="submit" class="btn btn-danger">Register</button>
+      </form>
 
-		</div>
-	</section>
-	
-	<section id="login_modal" class="modal fade">
+    </div>
+  </section>
+  
+  <section id="login_modal" class="modal fade">
 
-		<div class="modal-body">
+    <div class="modal-body">
 
-			<form action={% url 'noteboard:login' %}  method="post">
-				<span id="close_login" onclick="close()" class="glypicon glyphicon-remove-circle pull-right"></span>
-				{% csrf_token %}
-				<div class="form-group">
-					<label>Username:</label>
-					<input type="text" class="form-control" name="username" >
+      <form action={% url 'noteboard:login_view' %}  method="post">
+        <span id="close_login" onclick="close()" class="glypicon glyphicon-remove-circle pull-right"></span>
+        {% csrf_token %}
+        <div class="form-group">
+          <label>Username:</label>
+          <input type="text" class="form-control" name="username" >
 
-					<label>Password</label>
-					<input type="password" class="form-control" name="password" />
-				</div>
-				
-				<button type="submit" class="btn btn-danger">Login</button>
-			</form>
+          <label>Password</label>
+          <input type="password" class="form-control" name="password" />
+        </div>
+        
+        <button type="submit" class="btn btn-danger">Login</button>
+      </form>
 
-		</div>
-	</section>
-	
-	<section id="post_modal" class="modal fade">
-		<div class="modal-body">
-			<form action={% url 'noteboard:post' %} method="post">
-				<span id="close_post" onclick="close()" class="glypicon glyphicon-remove-circle pull-right"></span>
-				{% csrf_token %}
+    </div>
+  </section>
+  
+  <section id="post_modal" class="modal fade">
+    <div class="modal-body">
+      <form action={% url 'noteboard:post' %} method="post">
+        <span id="close_post" onclick="close()" class="glypicon glyphicon-remove-circle pull-right"></span>
+        {% csrf_token %}
 
-				<div class="form-group">
-					<label for="title">Title</label>
-					<input type="text" class="form-control" name="title" required>
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" class="form-control" name="title" required>
 
-                    <label for="city">City</label> <br>
-                    Please select the city that you are currently at. Leave it blank if you cannot find the city.
-                    {% load noteboard_tags %}
-                    {% get_all_cities as cities %}
-                    <select class="form-control" name="city">
-                        <option value = ""></option>
 
-                        {% for city in cities %}
-                            <option value="{{ city.name }}+{{ city.country }}"> {{ city.name }}, {{ city.country}} </option>
-                        {% endfor %}
-                    </select>
-					<label for="title">Body</label>
-					<input id="post_body" type="textarea" class="form-control" name="body" required>
-				</div>
-				
-				<button type="submit" class="btn btn-danger">Submit</button>
-			</form>
+        <label for="city">City</label> <br>
+        Please select the city that you are currently at. Leave it blank if you cannot find the city.
+        {% load noteboard_tags %}
+        {% get_all_cities as cities %}
+        <select class="form-control" name="city">
+            <option value = ""></option>
 
-		</div>
+            {% for city in cities %}
+                <option value="{{ city.name }}+{{ city.country }}"> {{ city.name }}, {{ city.country}} </option>
+            {% endfor %}
+        </select>
 
-	</section>
+          <label for="title">Body</label>
+          <input id="post_body" type="textarea" class="form-control" name="body" required>
+        </div>
+        
+        <button type="submit" class="btn btn-danger">Submit</button>
+      </form>
+
+    </div>
+
+  </section>
+
 
     <div class="container">
-		<br>
-		{% if user %}
-			<button id="post" class="btn btn-primary btn-lg pull-right">ADD A POST </button>
-		{% endif %}
+    <br>
+    {% if user %}
+      <button id="post" class="btn btn-primary btn-lg pull-right">ADD A POST </button>
+    {% endif %}
 
-		{% block main %} 
-		{% endblock %}
-		
-		<br>
+    {% block main %} 
+    {% endblock %}
+    
+    <br>
     </div><!-- /.container -->
 
     <div class="travelnotes-footer">
@@ -135,32 +179,33 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="{% static "js/bootstrap.min.js" %}" ></script>
     <script src="{% static "js/docs.min.js" %}"></script>
-	<script>
-		$(document).ready(function(){
-			$("#register").on('click', function() {
-				$("#register_modal").modal({show:true});
-			});
-			
-			$("#login").on('click', function() {
-				$("#login_modal").modal({show:true});
-			});
 
+  <script>
+    $(document).ready(function(){
+      $("#register").on('click', function() {
+        $("#register_modal").modal({show:true});
+      });
+
+      $("#login").on('click', function() {
+        $("#login_modal").modal({show:true});
+      });
             $("#post").on('click', function() {
-				$("#post_modal").modal({show:true});
-			});
-			
-			$("#close_register").on('click', function() {
-				$("#register_modal").modal('hide');
-			});
-			
-			$("#close_login").on('click', function() {
-				$("#login_modal").modal('hide');
-			});
-			
-			$("#close_post").on('click', function() {
-				$("#post_modal").modal('hide');
-			});
-		});
-	</script>
+        $("#post_modal").modal({show:true});
+      });
+
+      $("#close_register").on('click', function() {
+        $("#register_modal").modal('hide');
+      });
+
+      $("#close_login").on('click', function() {
+        $("#login_modal").modal('hide');
+      });
+
+      $("#close_post").on('click', function() {
+        $("#post_modal").modal('hide');
+      });
+    });
+  </script>
+
   </body>
 </html>

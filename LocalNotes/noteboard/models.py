@@ -1,3 +1,6 @@
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.conf import settings
 from django.db import models
 		
 class City(models.Model):
@@ -9,20 +12,19 @@ class City(models.Model):
 	def __str__(self):
 		return self.name
 		
-class User(models.Model):
-	username = models.CharField(max_length=50)
-	password = models.CharField(max_length=50)
-	
-	def __str__(self):
-		return self.username
-		
 class Post(models.Model):
 	title = models.CharField(max_length=50)
 	city = models.ForeignKey(City, null=False)
-	user = models.ForeignKey(User, null=False)
+	user = models.ForeignKey(settings.AUTH_USER_MODEL)
 	body = models.TextField()
 	created = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
 		return self.title
-	
+
+# Model Forms
+class MyUserCreationForm(UserCreationForm):
+  class Meta(UserCreationForm.Meta):
+    help_texts = {
+      'username' : '',
+    }
