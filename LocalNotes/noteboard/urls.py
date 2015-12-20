@@ -37,7 +37,7 @@ urlpatterns = [
 
 	#Delete, Edit View
 	url(r'^delete/(?P<id>[0-9]+)/ $', views.delete, name='delete'),
-	url(r'^update/(?P<id>[0-9]+)/ $', views.update, name='update'),
+	url(r'^update/$', views.update, name='update'),
 
 
 	url('^', include('django.contrib.auth.urls'))
