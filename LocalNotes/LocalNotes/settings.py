@@ -25,7 +25,7 @@ SECRET_KEY = '&lcse=6lp@zuv4gtnv#((dr^gqq_v!fm=xtewor24ixg9ooeur'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/search'
@@ -33,13 +33,13 @@ LOGIN_REDIRECT_URL = '/search'
 # Application definition
 
 INSTALLED_APPS = [
+	'noteboard',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'noteboard',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -77,18 +77,45 @@ WSGI_APPLICATION = 'LocalNotes.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+#putting passwords in here hardcoded probably a bad idea
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-		'OPTIONS': {
-			'read_default_file': os.path.join(BASE_DIR, 'my.cnf')
-		}
-    }
-    #'default': {
-    #    'ENGINE': 'django.db.backends.sqlite3',
-    #    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    #}
+	'default': {
+	},
+	'authdb': {
+		'ENGINE': 'django.db.backends.mysql',
+		'NAME': 'authdb',
+		'USER': 'root',
+		'PASSWORD': 'Inviciljigen1!',
+		'HOST': '127.0.0.1',
+		'PORT': '3306',
+	},
+	'cities': {
+		'ENGINE': 'django.db.backends.mysql',
+		'NAME': 'cities',
+		'USER': 'root',
+		'PASSWORD': 'Inviciljigen1!',
+		'HOST': '127.0.0.1',
+		'PORT': '3306',
+	},
+	'db1': {
+		'ENGINE': 'django.db.backends.mysql',
+		'NAME': 'largescale',
+		'USER': 'root',
+		'PASSWORD': 'Inviciljigen1!',
+		'HOST': '127.0.0.1',
+		'PORT': '3306',
+	},
+	'db2': {
+		'ENGINE': 'django.db.backends.mysql',
+		'NAME': 'largescale2',
+		'USER': 'root',
+		'PASSWORD': 'Inviciljigen1!',
+		'HOST': '127.0.0.1',
+		'PORT': '3306',
+	},
 }
+
+DATABASE_ROUTERS = ['noteboard.routers.CityRouter']
 
 
 # Password validation
