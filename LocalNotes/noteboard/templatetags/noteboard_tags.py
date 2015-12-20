@@ -8,8 +8,8 @@ register = template.Library()
 
 @register.simple_tag
 def get_all_cities():
-    all_cities = cache.get("cities", "expired")
-    if all_cities == "expired":
+    all_cities = cache.get("cities")
+    if all_cities is None:
         all_cities = City.objects.all()
         cache.set("cities", all_cities, 2*60)
 
