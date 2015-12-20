@@ -96,21 +96,21 @@ def post(request):
 
 		if input_city_country == "":
 
-			try:
-				City.objects.get(name=city_name)
+			    try:
+				        City.objects.get(name=city_name)
 
-            except City.DoesNotExist:
-                user_city = City(name=city_name, country=country_name, summary="Please add summary")
-                user_city.save()
-                cache.set("cities", City.objects.all())
+                except City.DoesNotExist:
+                        user_city = City(name=city_name, country=country_name, summary="Please add summary")
+                        user_city.save()
+                        cache.set("cities", City.objects.all())
 
 
-            input_city = city_name
-            input_country = country_name
+                input_city = city_name
+                input_country = country_name
 
         else:
-            input_city = str(input_city_country.split("+")[0])
-            input_country = str(input_city_country.split("+")[1])
+                input_city = str(input_city_country.split("+")[0])
+                input_country = str(input_city_country.split("+")[1])
 
 		if input_city == city_name and country_name == input_country:
             user_city = City.objects.get(name=city_name)
