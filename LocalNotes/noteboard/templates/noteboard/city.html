@@ -24,9 +24,13 @@
 			<button class="btn btn-primary pull-left update" onclick= test("{{ post.id }}","{{ post.title }}","{{ post.body }}")> Edit </button>
 			{% endif %}
 			<h3> Title: {{ post.title }} </h3>
-				Poster: {{ post.user }}   Created: {{ post.created }}  
-				<br><br>
-			<h4> {{ post.body }} </h4>
+			<center>
+					Poster: <a href={% url 'noteboard:UserView' pk=post.user.id %}>{{ post.user }}</a>       
+					Created: {{ post.created }}  
+					<br><br>
+				<h4> {{ post.body }} </h4>
+			</center>
+				
 		</div>
 		<br>
 	{% endfor %}
