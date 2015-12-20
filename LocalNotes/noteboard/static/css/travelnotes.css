@@ -170,9 +170,9 @@ div.post h2:first-child a:hover {
 }
 
 .boxed {
-  margin: auto;
+  margin-bottom: 20px;
   width: 800px;
-  padding: 25px;
+  padding: 10px;
   border: 1px solid;
   text-align: center;
 }
@@ -252,4 +252,9 @@ div.post h2:first-child a:hover {
     border: 0;
     box-shadow: none;
     border-left: solid 1px #ccc;
+}
+
+#post_container{
+	margin: auto 0;
+	width: 800px;
 }
