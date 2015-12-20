@@ -95,7 +95,6 @@ class CityView(generic.DetailView):
 @login_required
 def post(request):
 
-
 	ip_address = '216.165.95.3'
 	# ip_address = request.META.get('REMOTE_ADDR')
 
@@ -159,7 +158,7 @@ def error(request, err_message):
 @login_required
 def delete(request, id):
     delpost = Post.objects.get(pk=id)
-    userid = delpost.user.id
+    userid = delpost.userid
     if userid == request.user.id:
 		delpost.delete()
 
