@@ -99,7 +99,7 @@ def post(request):
         except City.DoesNotExist:
             user_city = City(name=city_name, country=country_name, summary="Please add summary")
             user_city.save()
-            cache.set("cities", City.objects.all(), 5*60)
+            cache.set("cities", City.objects.all(), 24*60*60)
 
 
         input_city = city_name
