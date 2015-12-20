@@ -34,6 +34,13 @@ def search(request):
 
 	return render(request, 'noteboard/search.html', context)
 
+def about(request):
+	context = {'user': None}
+	if request.user.is_authenticated():
+		context['user'] = request.user
+
+	return render(request, 'noteboard/about.html', context)
+
 def register(request):
 	if request.user.is_authenticated():
 		return HttpResponseRedirect(reverse('noteboard:UserView', args=(request.user.id,)))
@@ -182,3 +189,5 @@ def login_view(request):
 def logout_view(request):
 	logout(request)
 	return HttpResponseRedirect(reverse('noteboard:search', args=()))
+
+

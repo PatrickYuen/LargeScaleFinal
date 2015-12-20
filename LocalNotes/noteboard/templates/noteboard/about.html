@@ -3,14 +3,13 @@
 {% block navigation_bar %} 
 	  <a class="travelnotes-nav-item" href={% url 'noteboard:main' %} >Home</a>
 	  <a class="travelnotes-nav-item" href={% url 'noteboard:CitiesView' %}>Cities</a>
-	  <a class="travelnotes-nav-item" href={% url 'noteboard:about' %}>About</a>
+	  <a class="travelnotes-nav-item active" href={% url 'noteboard:about' %}>About</a>
 {% endblock %}
 	  
 {% block main %} 
-	
-    {% if messages %}
-        <h2> Sorry </h2>
-        <h4> {{ messages }} </h4>
-    {% endif %}
-		  
+	  <div class="travelnotes-header">
+        <h1 class="travelnotes-title">About</h1>
+      </div>
+	  
+
 {% endblock %}

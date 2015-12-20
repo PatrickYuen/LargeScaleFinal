@@ -10,8 +10,11 @@ urlpatterns = [
     url(r'^$', views.main, name='main'),
 	url(r'^search/$', views.search, name='search'),
 	
-	#Register Post
+	#Register User
 	url(r'^register/$', views.register, name='register'),
+
+	#About Page
+	url(r'^about/$', views.about, name='about'),
 	
 	#City Page
 	url(r'^cities/(?P<pk>[0-9]+)/$', views.CityView.as_view(), name='CityView'),
