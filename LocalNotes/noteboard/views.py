@@ -6,7 +6,10 @@ from django.contrib import messages
 from django.contrib.gis.geoip2 import GeoIP2
 
 from .models import *
-	
+
+global geo
+geo = GeoIP2()
+
 def main(request):
 	return HttpResponseRedirect(reverse('noteboard:search', args=()))
 
@@ -52,10 +55,8 @@ class CityView(generic.DetailView):
 		return context
 
 def post(request):
-
     ip_address = request.META.get('REMOTE_ADDR')
 
-    geo = GeoIP2()
     current_city = geo.city(str(ip_address))
     city_name = str(current_city['city'])
     country_name = str(current_city['country_name'])
