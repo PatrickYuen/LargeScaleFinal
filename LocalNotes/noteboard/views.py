@@ -106,7 +106,7 @@ def post(request):
 
 	input_city_country = request.POST.get('city')
 
-	if input_city_country == "":
+	if input_city_country == "" or input_city_country == None:
 
 		try:
 			user_city = City.objects.get(name=city_name)
@@ -123,8 +123,8 @@ def post(request):
 		input_country = country_name
 
 	else:
-		user_city = City.objects.get(using='cities', name=city_name) # Get PK from Cities
-		user_city = City.objects.get(using=logical_to_physical(logical_shard_for_city(user_city.id)), name=city_name) 
+		user_city = cache.get("cities").get(name=city_name) # Get PK from Cities
+		# user_city = City.objects.get(using=logical_to_physical(logical_shard_for_city(user_city.id)), name=city_name) 
 		#Find City Obj in Corresponding Shard
 		input_city = str(input_city_country.split("+")[0])
 		input_country = str(input_city_country.split("+")[1])
@@ -156,9 +156,11 @@ def error(request, err_message):
 		return render(request, 'noteboard/city_error.html', context)
 
 @login_required
-def delete(request, id):
-    delpost = Post.objects.get(pk=id)
-    userid = delpost.userid
+def delete(request, id, cityid):
+    db = logical_to_physical(logical_shard_for_city(int(cityid)))
+    delpost = Post.objects.filter(pk=id)
+    set_shard(delpost, db)
+    userid = delpost[0].userid
     if userid == request.user.id:
 		delpost.delete()
 

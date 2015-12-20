@@ -36,7 +36,7 @@ urlpatterns = [
 	url(r'^post/$', views.post, name='post'),
 
 	#Delete, Edit View
-	url(r'^delete/(?P<id>[0-9]+)/ $', views.delete, name='delete'),
+	url(r'^delete/(?P<id>[0-9]+)/(?P<cityid>[0-9]+)/ $', views.delete, name='delete'),
 	url(r'^update/$', views.update, name='update'),
 
 

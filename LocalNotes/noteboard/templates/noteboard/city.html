@@ -37,7 +37,7 @@
 	{% for post in posts_list %}
 		<div class="boxed">
 			{% if user.id == post.userid %}
-			<form action="{% url 'noteboard:delete' id=post.pk %}" method="post">
+			<form action="{% url 'noteboard:delete' id=post.pk cityid=post.city.id%}" method="post">
 				{% csrf_token %}
 				<button class="btn btn-primary pull-right"> Delete </button>
                 <input type="hidden" name="views" value="city" />
