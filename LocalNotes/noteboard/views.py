@@ -93,7 +93,7 @@ def post(request):
 
     input_city_country = request.POST.get('city')
 
-    if input_city_country == "":
+    if input_city_country == "" or input_city_country == None:
         try:
             City.objects.get(name=city_name)
 
@@ -126,6 +126,24 @@ def post(request):
 
     else:
         return error(request, "The city selected does not match the current city you are in, please re-add post.")
+
+@login_required
+def delete(request, id):
+	delpost = Post.objects.get(pk = id)
+	userid = delpost.user.id
+	if userid == request.user.id:
+		delpost.delete()
+	return HttpResponseRedirect(reverse('noteboard:UserView', args=(userid,)))
+
+@login_required	
+def update(request, id):
+	uppost = Post.objects.get(pk = id)
+	userid = uppost.user.id
+	if userid == request.user.id:
+		uppost.title = request.POST.get('title')
+		uppost.body = request.POST.get('body')
+		uppost.save()
+	return HttpResponseRedirect(reverse('noteboard:UserView', args=(userid,)))
 
 @login_required
 def error(request, err_message):
