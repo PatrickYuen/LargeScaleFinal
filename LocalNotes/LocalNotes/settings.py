@@ -81,13 +81,13 @@ WSGI_APPLICATION = 'LocalNotes.wsgi.application'
 DATABASES = {
 	'default': {
 	},
-	'authdb': {
+	'auth_user': {
 		'ENGINE': 'django.db.backends.mysql',
 		'NAME': 'authdb',
 		'USER': 'root',
         'PASSWORD': 'root',
 		# 'PASSWORD': 'Inviciljigen1!',
-		'HOST': '127.0.0.1',
+		'HOST': '52.32.135.25',
 		'PORT': '3306',
 	},
 	'cities': {
@@ -96,16 +96,16 @@ DATABASES = {
 		'USER': 'root',
         'PASSWORD': 'root',
         # 'PASSWORD': 'Inviciljigen1!',
-		'HOST': '127.0.0.1',
+		'HOST': '52.10.252.69',
 		'PORT': '3306',
 	},
 	'db1': {
 		'ENGINE': 'django.db.backends.mysql',
-		'NAME': 'largescale1',
+		'NAME': 'largescale',
 		'USER': 'root',
         'PASSWORD': 'root',
         # 'PASSWORD': 'Inviciljigen1!',
-		'HOST': '127.0.0.1',
+		'HOST': '52.25.175.21',
 		'PORT': '3306',
 	},
 	'db2': {
@@ -114,7 +114,7 @@ DATABASES = {
 		'USER': 'root',
         'PASSWORD': 'root',
         # 'PASSWORD': 'Inviciljigen1!',
-		'HOST': '127.0.0.1',
+		'HOST': '52.27.201.11',
 		'PORT': '3306',
 	},
 }

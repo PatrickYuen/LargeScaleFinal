@@ -95,8 +95,7 @@ class CityView(generic.DetailView):
 @login_required
 def post(request):
 
-	ip_address = '216.165.95.3'
-	# ip_address = request.META.get('REMOTE_ADDR')
+	ip_address = request.META.get('REMOTE_ADDR')
 
 	current_city = geo.city(str(ip_address))
 	city_name = str(current_city['city'])
