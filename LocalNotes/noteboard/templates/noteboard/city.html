@@ -15,6 +15,25 @@
 
 	<br>
 
+    <section id="update_modal" class="modal fade">
+        <div class="modal-body">
+            <form action="{% url 'noteboard:update' %}" method="post">
+                <input type="hidden" id="hid" name="hid" value=0>
+                <span id="close_update" onclick="close()" class="glypicon glyphicon-remove-circle pull-right"></span>
+                {% csrf_token %}
+                <input type="hidden" name="views" value="city" />
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input id="update_title" type="text" class="form-control" name="title" value="" required>
+
+                    <label for="title">Body</label>
+                    <input id="update_body" type="textarea" class="form-control" name="body" required>
+                </div>
+                <button type="submit" class="btn btn-danger">Submit</button>
+            </form>
+        </div>
+    </section>
+
 	{% for post in posts_list %}
 		<div class="boxed">
 			{% if user.id == post.user.id %}
@@ -22,15 +41,12 @@
 				{% csrf_token %}
 				<button class="btn btn-primary pull-right"> Delete </button>
 			</form>
-            <form action="{% url 'noteboard:update' id=post.pk %}">
-                {% csrf_token %}
-                <button class="btn btn-primary pull-left update" onclick= test("{{ post.id }}","{{ post.title }}","{{ post.body }}")> Edit </button>
-            </form>
+            <button class="btn btn-primary pull-left update" onclick="test({{ post.id }}, '{{ post.title }}' ,'{{ post.body }}')"> Edit </button>
 
 			{% endif %}
 			<h3> Title: {{ post.title }} </h3>
 			<center>
-					Poster: <a href={% url 'noteboard:UserView' pk=post.user.id %}>{{ post.user }}</a> 
+					Poster: <a href={% url 'noteboard:UserView' pk=post.user.id %}>{{ post.user }}</a>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					City: <a href={% url 'noteboard:CityView' pk=post.city.id %}>{{ post.city }}</a><br>        
 					Created: {{ post.created }}  
@@ -46,6 +62,7 @@
 		<script>
 		function test(id, title, body) {
 			$("#update_modal").modal({show:true});
+            $("#hid").val(id);
 			document.getElementById("update_title").value = title;
 			document.getElementById("update_body").value = body;
 		}
