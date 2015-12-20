@@ -89,6 +89,14 @@ DATABASES = {
 		'HOST': '127.0.0.1',
 		'PORT': '3306',
 	},
+	'cities': {
+		'ENGINE': 'django.db.backends.mysql',
+		'NAME': 'cities',
+		'USER': 'root',
+		'PASSWORD': 'Inviciljigen1!',
+		'HOST': '127.0.0.1',
+		'PORT': '3306',
+	},
 	'db1': {
 		'ENGINE': 'django.db.backends.mysql',
 		'NAME': 'largescale',

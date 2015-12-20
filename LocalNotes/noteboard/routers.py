@@ -30,9 +30,6 @@ class CityRouter(object):
 
 	def _db_for_read_write(self, model, **hints):
 		""" """
-		for x in model().__dict__.keys():
-			if x == 'id':
-				print model[x]
 		
 		# Auth reads always go to the auth sub-system
 		if model._meta.app_label == 'auth':
@@ -44,17 +41,17 @@ class CityRouter(object):
 			
 		db = 'db1' 
 		try:
-			instance = hints['instance']
 			if 'shard_id' in hints:
-				db = self._database_of(instance.shard_id)
+				db = hints['shard_id']
 			else:
-				db = self._database_of(instance.city_id)
+				db = self._database_of(hints['city_id'])
 		except AttributeError:
 			# For the city model the key is id.
 			db = self._database_of(instance.id)
 		except KeyError:
 			try:
-				db = self._database_of(int(hints['city_id']))
+				#No instance means it's a new city object
+				db = 'cities'
 			except KeyError:
 				print "No instance in hints"
 		print "Returning", db
