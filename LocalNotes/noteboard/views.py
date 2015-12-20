@@ -10,7 +10,7 @@ from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.views import generic
-
+from django.core.cache import cache
 from django.contrib.gis.geoip2 import GeoIP2
 # from .models import Following, Post, FollowingForm, PostForm, MyUserCreationForm
 
@@ -101,6 +101,7 @@ def post(request):
         except City.DoesNotExist:
             user_city = City(name=city_name, country=country_name, summary="Please add summary")
             user_city.save()
+            cache.set("cities", City.objects.all())
 
         input_city = city_name
         input_country = country_name
