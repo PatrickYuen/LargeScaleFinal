@@ -38,6 +38,7 @@
 			<form action="{% url 'noteboard:delete' id=post.pk%}" method="post">
 				{% csrf_token %}
 				<button class="btn btn-primary pull-right"> Delete </button>
+                <input type="hidden" name="view" value="user" />
             </form>
             
             <button class="btn btn-primary pull-left update" onclick="test( {{ post.id }},'{{ post.title }}','{{ post.body }}')"> Edit </button>
