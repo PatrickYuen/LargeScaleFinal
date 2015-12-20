@@ -15,6 +15,7 @@ from django.contrib.gis.geoip2 import GeoIP2
 # from .models import Following, Post, FollowingForm, PostForm, MyUserCreationForm
 
 from .models import *
+from .hints import *
 
 global geo
 geo = GeoIP2()
@@ -27,10 +28,14 @@ def search(request):
 	if request.user.is_authenticated():
 		context['user'] = request.user
 
+	all_cities = []
 	if request.method == 'POST':
-		cities_list = City.objects.filter(name__contains = request.POST.get('keyword'))[:5]
-
-		context = {'cities_list': cities_list}		
+		#go through all the shards
+		for shard in set(LOGICAL_TO_PHYSICAL):
+			cities_list = City.objects.filter(name__contains = request.POST.get('keyword'))[:5]
+			set_shard(cities_list, shard)
+			all_cities = all_cities + [p for p in cities_list]
+		context = {'cities_list': all_cities}		
 	return render(request, 'noteboard/search.html', context)
 
 def register(request):
@@ -80,47 +85,50 @@ class CityView(generic.DetailView):
 
 def post(request):
 
-    ip_address = request.META.get('REMOTE_ADDR')
+	ip_address = '216.165.95.3'
+	#request.META.get('REMOTE_ADDR')
 
-    current_city = geo.city(str(ip_address))
-    city_name = str(current_city['city'])
-    country_name = str(current_city['country_name'])
-    print city_name
+	current_city = geo.city(str(ip_address))
+	city_name = str(current_city['city'])
+	country_name = str(current_city['country_name'])
+	print city_name
+	print country_name
 
-    input_city_country = request.POST.get('city')
+	input_city_country = request.POST.get('city')
 
-    if input_city_country == "":
+	if input_city_country == "":
 
-        try:
-            City.objects.get(name=city_name)
+		try:
+			#check all shards
+			City.objects.get(name=city_name)
 
-        except City.DoesNotExist:
-            user_city = City(name=city_name, country=country_name, summary="Please add summary")
-            user_city.save()
+		except City.DoesNotExist:
+			user_city = City(name=city_name, country=country_name, summary="Please add summary")
+			user_city.save()
 
-        input_city = city_name
-        input_country = country_name
+		input_city = city_name
+		input_country = country_name
 
-    else:
-        input_city = str(input_city_country.split("+")[0])
-        input_country = str(input_city_country.split("+")[1])
+	else:
+		input_city = str(input_city_country.split("+")[0])
+		input_country = str(input_city_country.split("+")[1])
 
-    if input_city == city_name and country_name == input_country:
-        user_city = City.objects.get(name=city_name)
-        if request.method == 'POST':
+	if input_city == city_name and country_name == input_country:
+		user_city = City.objects.get(name=city_name)
+		if request.method == 'POST':
 
-            selected_post = Post(
-                            title = request.POST.get('title'),
-                            body = request.POST.get('body'),
-                            city = user_city,
-                            user = request.user)
+			selected_post = Post(
+							title = request.POST.get('title'),
+							body = request.POST.get('body'),
+							city = user_city,
+							user = request.user)
 
-            selected_post.save()
+			selected_post.save()
 
-        return HttpResponseRedirect(reverse('noteboard:CityView', args=(user_city.pk,)))
+		return HttpResponseRedirect(reverse('noteboard:CityView', args=(user_city.pk,)))
 
-    else:
-        return error(request, "The city selected does not match the current city you are in, please re-add post.")
+	else:
+		return error(request, "The city selected does not match the current city you are in, please re-add post.")
 
 def error(request, err_message):
     context = dict()
@@ -152,7 +160,6 @@ def login_view(request):
       # return render_to_response('login_error', message='Save complete')
       return HttpResponse("Your username and password didn't match.")
     
-		
 def logout_view(request):
 	logout(request)
 	return HttpResponseRedirect(reverse('noteboard:search', args=()))

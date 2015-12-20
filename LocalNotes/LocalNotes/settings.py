@@ -25,7 +25,7 @@ SECRET_KEY = '&lcse=6lp@zuv4gtnv#((dr^gqq_v!fm=xtewor24ixg9ooeur'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 LOGIN_URL = '/noteboard/login/'
 LOGIN_REDIRECT_URL = '/search'
@@ -33,13 +33,13 @@ LOGIN_REDIRECT_URL = '/search'
 # Application definition
 
 INSTALLED_APPS = [
+	'noteboard',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'noteboard',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -79,7 +79,16 @@ WSGI_APPLICATION = 'LocalNotes.wsgi.application'
 
 #putting passwords in here hardcoded probably a bad idea
 DATABASES = {
-	'default': {},
+	'default': {
+	},
+	'authdb': {
+		'ENGINE': 'django.db.backends.mysql',
+		'NAME': 'authdb',
+		'USER': 'root',
+		'PASSWORD': 'Inviciljigen1!',
+		'HOST': '127.0.0.1',
+		'PORT': '3306',
+	},
 	'db1': {
 		'ENGINE': 'django.db.backends.mysql',
 		'NAME': 'largescale',

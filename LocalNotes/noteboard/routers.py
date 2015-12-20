@@ -1,10 +1,8 @@
 NUM_LOGICAL_SHARDS = 16
 NUM_PHYSICAL_SHARDS = 2
 
-LOGICAL_TO_PHYSICAL = (
-  'db1', 'db2', 'db1', 'db2', 'db1', 'db2', 'db1', 'db2',
-  'db1', 'db2', 'db1', 'db2', 'db1', 'db2', 'db1', 'db2',
-)
+LOGICAL_TO_PHYSICAL = ('db1', 'db2', 'db1', 'db2', 'db1', 'db2', 'db1', 'db2',
+						'db1', 'db2', 'db1', 'db2', 'db1', 'db2', 'db1', 'db2')
 
 def bucket_cities_into_shards(city_ids):
   d = {}
@@ -32,21 +30,25 @@ class CityRouter(object):
 
 	def _db_for_read_write(self, model, **hints):
 		""" """
-		print "peanut"
-		print model._meta.app_label
+		for x in model().__dict__.keys():
+			if x == 'id':
+				print model[x]
+		
 		# Auth reads always go to the auth sub-system
 		if model._meta.app_label == 'auth':
-			return 'auth_db'
+			return 'authdb'
+		
 		# For now, sessions are stored on the auth sub-system, too.
-		if model._meta.app_label == 'sessions':
-			return 'auth_db'
+		if model._meta.app_label == 'admin':
+			return 'authdb'
 			
 		db = 'db1' 
 		try:
-			print "sdfsdflkjsdfklsdjf"
-			print hints
 			instance = hints['instance']
-			db = self._database_of(instance.city_id)
+			if 'shard_id' in hints:
+				db = self._database_of(instance.shard_id)
+			else:
+				db = self._database_of(instance.city_id)
 		except AttributeError:
 			# For the city model the key is id.
 			db = self._database_of(instance.id)
