@@ -226,7 +226,10 @@ def login_view(request):
 			return HttpResponseRedirect(reverse('noteboard:UserView', args=(user.id,)))
 		else:
 			# return render_to_response('login_error', message='Save complete')
-			return HttpResponse("Your username and password didn't match.")
+			context = dict()
+			context['messages'] = "Your username and password didn't match."
+			context['user'] = None
+			return render(request, 'noteboard/city_error.html', context)
 
 @login_required	
 def logout_view(request):
