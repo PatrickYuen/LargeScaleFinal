@@ -40,7 +40,7 @@
             </form>
             <form action="{% url 'noteboard:update' id=post.pk %}">
                 {% csrf_token %}
-                <button class="btn btn-primary pull-left update" id="login"> Edit </button>
+                <button class="btn btn-primary pull-left update" onclick= test("{{ post.id }}","{{ post.title }}","{{ post.body }}")> Edit </button>
             </form>
             {% endif %}
 			<h3> Title: {{ post.title }} </h3>
@@ -57,18 +57,18 @@
 	<br>
 	
 	<script>
-{#		function test(id, title, body) {#}
-{#			$("#update_modal").modal({show:true});#}
-{#			document.getElementById("update_title").value = title;#}
-{#			document.getElementById("update_body").value = body;#}
-{#		}#}
+		function test(id, title, body) {
+			$("#update_modal").modal({show:true});
+			document.getElementById("update_title").value = title;
+			document.getElementById("update_body").value = body;
+		}
 		
 		$(document).ready(function(){
-            $("#update").on('click', function(){
-                $("#update_modal").modal({show:true});
-                $("#update_title").value = title;
-                $("#update_body").value = body;
-            });
+{#            $("#update").on('click', function(){#}
+{#                $("#update_modal").modal({show:true});#}
+{#                $("#update_title").value = title;#}
+{#                $("#update_body").value = body;#}
+{#            });#}
 
 			$("#close_update").on('click', function() {
 				$("#update_modal").modal({show: true});
