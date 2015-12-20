@@ -12,24 +12,25 @@
 	<h1 class="travelnotes-title"> Username: {{ user.username }}</h1>
 	</div>
 	<br>
-	
-	<section id="update_modal" class="modal fade">
-		<div class="modal-body">
-			<form action= method="post">
-				<span id="close_update" onclick="close()" class="glypicon glyphicon-remove-circle pull-right"></span>
-				{% csrf_token %}
+    <section id="update_modal" class="modal fade">
+        <div class="modal-body">
+            <form action="{% url 'noteboard:update'%}" method="post">
+                <input type="hidden" name="hid" id="hid" value=0 />
+                <span id="close_update" onclick="close()" class="glypicon glyphicon-remove-circle pull-right"></span>
+                {% csrf_token %}
+                <input type="hidden" name="view" value="user" />
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input id="update_title" type="text" class="form-control" name="title" value="" required>
 
-				<div class="form-group">
-					<label for="title">Title</label>
-					<input id="update_title" type="text" class="form-control" name="title" value="" required>
-					
-					<label for="title">Body</label>
-					<input id="update_body" type="textarea" class="form-control" name="body" required>
-				</div>	
-				<button type="submit" class="btn btn-danger">Submit</button>
-			</form>
-		</div>
-	</section>
+                    <label for="title">Body</label>
+                    <input id="update_body" type="textarea" class="form-control" name="body" required>
+                </div>
+                <button type="submit" class="btn btn-danger">Submit</button>
+            </form>
+        </div>
+    </section>
+
 
 	{% for post in posts_list %}
 		<div class="boxed"> 
@@ -39,8 +40,8 @@
 				<button class="btn btn-primary pull-right"> Delete </button>
             </form>
             
-                <button class="btn btn-primary pull-left update" onclick= test("{{ post.id }}","{{ post.title }}","{{ post.body }}")> Edit </button>
-            
+            <button class="btn btn-primary pull-left update" onclick="test( {{ post.id }},'{{ post.title }}','{{ post.body }}')"> Edit </button>
+
             {% endif %}
 			<h3> Title: {{ post.title }} </h3>
 				Poster: <a href={% url 'noteboard:UserView' pk=post.user.id %}>{{ post.user }}</a>
@@ -58,19 +59,15 @@
 	<script>
 		function test(id, title, body) {
 			$("#update_modal").modal({show:true});
+            $("#hid").val(id);
 			document.getElementById("update_title").value = title;
 			document.getElementById("update_body").value = body;
 		}
 		
 		$(document).ready(function(){
-{#            $("#update").on('click', function(){#}
-{#                $("#update_modal").modal({show:true});#}
-{#                $("#update_title").value = title;#}
-{#                $("#update_body").value = body;#}
-{#            });#}
 
 			$("#close_update").on('click', function() {
-				$("#update_modal").modal({show: true});
+				$("#update_modal").modal('hide');
 			});
 		});
 	</script>
