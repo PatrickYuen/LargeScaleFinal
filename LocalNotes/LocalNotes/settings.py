@@ -76,16 +76,30 @@ WSGI_APPLICATION = 'LocalNotes.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'auth': 'django.db.backends.mysql',
 		'OPTIONS': {
 			'read_default_file': os.path.join(BASE_DIR, 'my.cnf')
-		}
+		},
+
+        '0': {
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': os.path.join(BASE_DIR, 'my.cnf')
+        },
+
+        '1': {
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': os.path.join(BASE_DIR, 'my.cnf')
+        }
     }
     #'default': {
     #    'ENGINE': 'django.db.backends.sqlite3',
     #    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     #}
 }
+
+DATABASE_ROUTERS = ['noteboard.routers.UserRouter']
 
 
 # Password validation
