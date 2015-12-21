@@ -1,11 +1,11 @@
-Large Scale Final Travel Notes:
+Travel Guide:
 
-To Do:
+Introduction:
+Why: We want accurate information about our destination.
+What: Up-to-date information posted by people at correct place. Information that can be viewed by any visitor of our site. 
+Construction: Django + Amazon ec2 + MemcachedCached
 
-User Login/Register and Session Authentication |
-Geo Verification Layer |
-DB Sharding scheme with MySQL |
-Organizing the city Page to display proper layout |
-Categories for Post |
-Run on EC2 |
-Caching |
+Features/Challenges:
+Why: We want accurate information about our destination.
+What: Up-to-date information posted by people at correct place. Information that can be viewed by any visitor of our site. 
+Construction: Django + Amazon ec2 + Memcached
