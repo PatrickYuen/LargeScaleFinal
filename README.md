@@ -7,13 +7,13 @@
 
 ### Features/Challenges:
 1. View, Post, Delete, Edit:
-- Visitors can view all posts.
-- Registered users can view all posts; post new post; delete, and edit their own posts.
+  - Visitors can view all posts.
+  - Registered users can view all posts; post new post; delete, and edit their own posts.
 
 2. GeoIP: 
-- Users can only post information about the city that they are currently in.
-- Our site automatically adds new cities that does not exist in our database.
+  - Users can only post information about the city that they are currently in.
+  - Our site automatically adds new cities that does not exist in our database.
 
 3. City DB: 
-- Not to fan in all the time.
-- Gets city ID for sharding.
+  - Not to fan in all the time.
+  - Gets city ID for sharding.
